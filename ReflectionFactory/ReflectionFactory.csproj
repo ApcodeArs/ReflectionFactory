@@ -41,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Reports\LessonsReport.cs" />
+    <Compile Include="Models\Reports\ReportBase.cs" />
+    <Compile Include="Models\Reports\ReportsFactory.cs" />
+    <Compile Include="Models\Reports\ReportType.cs" />
+    <Compile Include="Models\Reports\TestsReport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
