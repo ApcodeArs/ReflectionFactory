@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ReflectionFactory.Helpers;
 
 namespace ReflectionFactory.Models.Reports
 {
@@ -23,15 +24,18 @@ namespace ReflectionFactory.Models.Reports
 
         public ReportBase Create(ReportType reportType, string data)
         {
-            switch (reportType)
+            var reportClassTypes = ReflectionHelper.GetDerivedClasses<ReportBase>();
+
+            var necessaryClassType = reportClassTypes.FirstOrDefault(reportClassType =>
             {
-                case ReportType.Lessons:
-                    return new LessonsReport(data);
-                case ReportType.Tests:
-                    return new TestsReport(data);
-                default:
-                    throw new ArgumentException($"Can't find class type by {reportType.GetType().Name}.{reportType} type");
-            }
+                var reportTypeAttribute = (ReportTypeAttribute)Attribute.GetCustomAttribute(reportClassType, typeof(ReportTypeAttribute));
+                return reportType == reportTypeAttribute.ReportType;
+            });
+
+            if (necessaryClassType == null)
+                throw new ArgumentException($"Can't find class type by {reportType.GetType().Name}.{reportType} type");
+
+            return (ReportBase)Activator.CreateInstance(necessaryClassType, data);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ReflectionFactory.Models.Reports
 {
+    [ReportType(ReportType.Tests)]
     public sealed class TestsReport : ReportBase
     {
         public TestsReport(string data) : base(data)
